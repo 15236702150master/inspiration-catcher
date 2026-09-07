@@ -1,0 +1,12 @@
+[
+  {
+    "id": "user-owner-a",
+    "email": "owner-a@example.test",
+    "passwordHash": "0123456789abcdef0123456789abcdef:be1179065df59ccffb071ca6f4e653f27f475383c78a0a49707ee0038c068655b28a0d179bb16d541192f7a644a32262b614329d521dc344a04a03ba79ddfaf2"
+  },
+  {
+    "id": "user-owner-b",
+    "email": "owner-b@example.test",
+    "passwordHash": "0123456789abcdef0123456789abcdef:3b206089d041c661ab3f2b47acfb4f03ed5ac367c6a2b1d1a8abf61531e28f86ea7c8af80c75a9be1cd495c6e53e0bf5abc0ae9bbfa962454362a1f91eba776d"
+  }
+]

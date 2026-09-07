@@ -1,0 +1,22 @@
+[
+  {
+    "id": "note-legacy-1",
+    "ownerId": "user-owner-a",
+    "title": "重复句与 emoji 测试",
+    "url": "https://example.test/video/1",
+    "thumbnail": "/covers/c17f3cca84ece15e669e872e.jpg",
+    "platform": "bilibili",
+    "author": "测试作者",
+    "duration": 125,
+    "note": "这是原有的快速感想，不应进入加工稿。",
+    "status": "pending",
+    "transcriptionStatus": "completed",
+    "transcriptionJobId": "job-legacy-1",
+    "tags": ["产品思维", "表达方法"],
+    "transcript": "第一段包含 emoji 👩🏽‍💻。\r\n\r\n同一句会出现。\r\n同一句会出现。",
+    "formattedTranscript": "# 核心观点\n\n第一段包含 **emoji 👩🏽‍💻**。\n\n同一句会出现。",
+    "analysisIds": ["analysis-legacy-cases-1", "analysis-legacy-1"],
+    "createdAt": "2026-07-01T01:00:00.000Z",
+    "updatedAt": "2026-07-02T01:00:00.000Z"
+  }
+]

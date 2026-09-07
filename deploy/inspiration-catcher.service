@@ -1,0 +1,13 @@
+[Unit]
+Description=Inspiration Catcher Web App
+After=network-online.target
+
+[Service]
+WorkingDirectory=/home/op/apps/inspiration-catcher
+Environment=PORT=4173
+ExecStart=/usr/bin/node server.mjs
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=default.target
