@@ -6,7 +6,8 @@
 .tmp-*
 data/*
 !data/.gitkeep
-covers/
+covers/*
+!covers/c17f3cca84ece15e669e872e.jpg
 *.sqlite*
 *.sqlite-*
 *.log
