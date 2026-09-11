@@ -6,6 +6,8 @@ services:
     restart: unless-stopped
     env_file:
       - ../.env
+    environment:
+      HOST: 0.0.0.0
     ports:
       - "${APP_PORT:-4173}:4173"
     volumes:

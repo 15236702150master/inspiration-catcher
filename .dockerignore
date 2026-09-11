@@ -1,0 +1,17 @@
+.git
+.github
+.env
+.env.*
+!.env.example
+data/
+covers/
+node_modules/
+dist/
+artifacts/
+tests/screenshots/
+.private/
+.omx/
+.tmp-*
+*.sqlite*
+*.log
+PROJECT_HANDOFF.md

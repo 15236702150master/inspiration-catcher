@@ -21,6 +21,7 @@ __pycache__/
 .idea/
 artifacts/
 tests/screenshots/
+*-check.png
 PROJECT_HANDOFF.md
 打开线上版.bat
 启动本地版.bat

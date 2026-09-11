@@ -531,7 +531,8 @@ async function inspectVideo(url) {
   let metadata;
   try {
     const program = process.platform === "win32" ? "wsl" : process.env.YTDLP_PATH || "yt-dlp";
-    const args = process.platform === "win32" ? ["-e", "/home/winner/.local/bin/yt-dlp", "--no-playlist", "--skip-download", "--dump-single-json", url] : ["--no-playlist", "--skip-download", "--dump-single-json", url];
+    const wslYtdlp = process.env.YTDLP_WSL_PATH || "yt-dlp";
+    const args = process.platform === "win32" ? ["-e", wslYtdlp, "--no-playlist", "--skip-download", "--dump-single-json", url] : ["--no-playlist", "--skip-download", "--dump-single-json", url];
     const output = await command(program, args);
     metadata = JSON.parse(output);
   } catch (error) {
@@ -1073,6 +1074,8 @@ async function route(request, response, url) {
   return false;
 }
 
+const bindHost = process.env.HOST || "127.0.0.1";
+
 createServer(async (request, response) => {
   const url = new URL(request.url, "http://localhost");
   try {
@@ -1091,4 +1094,4 @@ createServer(async (request, response) => {
     if (!filePath.startsWith(normalize(staticRoot)) || !existsSync(filePath)) { response.writeHead(404); response.end("Not found"); return; }
     response.writeHead(200, { "Content-Type": types[extname(filePath)] || "application/octet-stream", "Cache-Control": [".html", ".js", ".css"].includes(extname(filePath)) ? "no-cache, no-store, must-revalidate" : "public, max-age=3600" }); createReadStream(filePath).pipe(response);
   } catch (error) { console.error(error); fail(response, error.status || 500, error.code || "INTERNAL_ERROR", error.message || "服务器内部错误", error.details); }
-}).listen(port, "127.0.0.1", () => console.log(`Inspiration Catcher: http://127.0.0.1:${port}`));
+}).listen(port, bindHost, () => console.log(`Inspiration Catcher: http://${bindHost}:${port}`));
