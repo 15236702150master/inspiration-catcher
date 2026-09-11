@@ -1077,6 +1077,13 @@ async function route(request, response, url) {
 const bindHost = process.env.HOST || "127.0.0.1";
 
 createServer(async (request, response) => {
+  const rawPath = String(request.url || "").split("?", 1)[0];
+  // Reject encoded traversal before URL parsing normalizes dot segments.
+  if (/[\\]/.test(rawPath) || /%(?:2e|2f|5c)/i.test(rawPath)) {
+    response.writeHead(404);
+    response.end("Not found");
+    return;
+  }
   const url = new URL(request.url, "http://localhost");
   try {
     if (url.pathname.startsWith("/api/")) { const handled = await route(request, response, url); if (handled === false) fail(response, 404, "NOT_FOUND", "接口不存在"); return; }
@@ -1091,7 +1098,9 @@ createServer(async (request, response) => {
     const relativePath = url.pathname === "/" ? "index.html" : decodeURIComponent(url.pathname.slice(1));
     const staticRoot = existsSync(join(root, "dist", "index.html")) ? join(root, "dist") : root;
     const filePath = normalize(join(staticRoot, relativePath));
-    if (!filePath.startsWith(normalize(staticRoot)) || !existsSync(filePath)) { response.writeHead(404); response.end("Not found"); return; }
+    const extension = extname(filePath).toLowerCase();
+    const publicExtensions = new Set([".html", ".js", ".css", ".svg", ".png", ".jpg", ".jpeg", ".webp", ".ico", ".map"]);
+    if (!filePath.startsWith(normalize(staticRoot)) || !existsSync(filePath) || !publicExtensions.has(extension)) { response.writeHead(404); response.end("Not found"); return; }
     response.writeHead(200, { "Content-Type": types[extname(filePath)] || "application/octet-stream", "Cache-Control": [".html", ".js", ".css"].includes(extname(filePath)) ? "no-cache, no-store, must-revalidate" : "public, max-age=3600" }); createReadStream(filePath).pipe(response);
   } catch (error) { console.error(error); fail(response, error.status || 500, error.code || "INTERNAL_ERROR", error.message || "服务器内部错误", error.details); }
 }).listen(port, bindHost, () => console.log(`Inspiration Catcher: http://${bindHost}:${port}`));
