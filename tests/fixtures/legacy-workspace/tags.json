@@ -1,0 +1,12 @@
+{
+  "groups": [
+    {
+      "id": "group-work",
+      "name": "工作",
+      "tags": [
+        { "id": "tag-product", "name": "产品思维" },
+        { "id": "tag-expression", "name": "表达方法" }
+      ]
+    }
+  ]
+}

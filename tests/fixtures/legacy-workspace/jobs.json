@@ -1,0 +1,21 @@
+[
+  {
+    "id": "job-legacy-1",
+    "ownerId": "user-owner-a",
+    "inspirationId": "note-legacy-1",
+    "status": "completed",
+    "progress": 100,
+    "transcript": "第一段包含 emoji 👩🏽‍💻。\n\n同一句会出现。\n同一句会出现。",
+    "createdAt": "2026-07-01T01:00:00.000Z",
+    "completedAt": "2026-07-01T01:02:00.000Z"
+  },
+  {
+    "id": "job-active-1",
+    "ownerId": "user-owner-a",
+    "inspirationId": "note-legacy-1",
+    "status": "transcribing",
+    "progress": 63,
+    "mediaFile": "fixture.mp4",
+    "createdAt": "2026-07-03T01:00:00.000Z"
+  }
+]

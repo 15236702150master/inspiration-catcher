@@ -1,0 +1,24 @@
+[
+  {
+    "id": "analysis-legacy-cases-1",
+    "ownerId": "user-owner-a",
+    "inspirationId": "note-legacy-1",
+    "sourceUrl": "https://example.test/video/1",
+    "type": "cases",
+    "provider": "deepseek",
+    "model": "fixture-model",
+    "markdown": "## 类似案例\n\n可供比较的案例。",
+    "createdAt": "2026-07-03T02:00:00.000Z"
+  },
+  {
+    "id": "analysis-legacy-1",
+    "ownerId": "user-owner-a",
+    "inspirationId": "note-legacy-1",
+    "sourceUrl": "https://example.test/video/1",
+    "type": "video",
+    "provider": "openai",
+    "model": "fixture-model",
+    "markdown": "## 拆解\n\n可迁移的方法。",
+    "createdAt": "2026-07-02T02:00:00.000Z"
+  }
+]

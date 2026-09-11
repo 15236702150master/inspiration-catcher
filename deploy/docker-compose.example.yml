@@ -1,0 +1,12 @@
+services:
+  inspiration-catcher:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.example
+    restart: unless-stopped
+    env_file:
+      - ../.env
+    ports:
+      - "${APP_PORT:-4173}:4173"
+    volumes:
+      - ${DATA_DIR:-./data}:/app/data

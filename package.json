@@ -1,0 +1,34 @@
+{
+  "name": "inspiration-catcher",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "快速记录视频灵感、AI 拆解与相似案例搜索的独立网页原型",
+  "scripts": {
+    "dev": "concurrently -k -n api,web \"node server.mjs\" \"vite --host 127.0.0.1\"",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "start": "node server.mjs",
+    "test": "node --test tests/*.test.mjs tests/backend*.mjs",
+    "test:unit": "node --test tests/*.test.mjs",
+    "test:backend": "node --test tests/backend*.mjs"
+  },
+  "dependencies": {
+    "@tiptap/core": "3.29.0",
+    "@tiptap/extension-highlight": "3.29.0",
+    "@tiptap/extension-link": "3.29.0",
+    "@tiptap/extension-placeholder": "3.29.0",
+    "@tiptap/extension-underline": "3.29.0",
+    "@tiptap/starter-kit": "3.29.0",
+    "better-sqlite3": "12.4.1",
+    "dompurify": "3.4.12",
+    "mammoth": "^1.12.0",
+    "marked": "18.0.7",
+    "mdast-util-from-markdown": "2.0.2",
+    "pdf-parse": "^2.4.5"
+  },
+  "devDependencies": {
+    "concurrently": "10.0.4",
+    "vite": "8.1.5"
+  }
+}
