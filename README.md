@@ -1,5 +1,7 @@
 # 灵感捕手
 
+[![Publish static showcase](https://github.com/15236702150master/inspiration-catcher/actions/workflows/pages.yml/badge.svg)](https://github.com/15236702150master/inspiration-catcher/actions/workflows/pages.yml)
+
 把刷到的内容变成可执行的下一步：保存视频或文章，补上一句自己的想法，
 再用转写、AI 拆解、相似案例和标签把灵感整理成可回看的资料。
 
@@ -13,6 +15,16 @@
 
 > GitHub Pages 发布的是不需要后端的静态体验页。完整的登录、SQLite 持久化、
 > 转写、AI 调用和飞书同步需要在自己的 Node.js 服务上运行。
+
+## 功能地图
+
+| 阶段 | 入口与处理 | 产出 |
+| --- | --- | --- |
+| 捕捉 | 抖音、B 站、微信视频号、公众号文章，以及 Word/PDF | 标题、封面、来源和原文 |
+| 加工 | Whisper 异步转写、阅读高亮/批注、模型拆解 | 转写稿、阅读版、个人加工稿和案例研究 |
+| 归档 | 灵感库、标签、搜索和飞书 OAuth | 可回看的主题资料与同步状态 |
+
+Pages 上的体验台是可重复操作的静态样例：可以解析示例链接、填写感想、在“我的灵感”和“AI 实验室”之间切换，并查看拆解结果。示例状态只保存在浏览器内存，刷新页面会重置；要使用真实数据，请按下面的 Node.js 部署说明运行完整服务。
 
 ## 界面一览
 
@@ -74,12 +86,15 @@ npm start
 从 `.env.example` 复制配置，至少按实际部署填写：
 
 - `ADMIN_TOKEN`、`WORKER_TOKEN`：管理接口和转写 worker 的独立随机值。
+- `WECHAT_RESOLVER_URL`：微信视频号解析服务地址；默认值仅用于兼容现有部署，可替换为自己的解析服务。
 - `DEEPSEEK_*`、`OPENAI_*`、`ANTHROPIC_*`、`XAI_*`：需要使用的模型接口。
 - `PUBLIC_BASE_URL`、`FEISHU_REDIRECT_URI`、`INTEGRATION_ENCRYPTION_KEY`：飞书同步。
 - `TRANSCRIBE_COMMAND`：可选的异步转写任务包装命令。
 
 `.env`、数据库、封面、原始记录、日志和临时文件都被 `.gitignore` 排除；
 请不要把真实凭据写进源代码、Issue 或截图。
+
+使用微信视频号解析时，分享链接会发送到 `WECHAT_RESOLVER_URL` 指定的服务；生产部署前请确认该服务的隐私策略，或替换为自己维护的解析端点。
 
 ## 项目结构
 
@@ -99,6 +114,7 @@ npm start
 ```powershell
 npm test
 npm run build
+npm audit --omit=dev --audit-level=high
 ```
 
 Pages 工作流会在 Ubuntu runner 上重新安装依赖、构建应用并发布 `site/` 静态体验页；

@@ -4,11 +4,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="灵感捕手：记录内容灵感，整理转写，生成可执行的下一步。">
+    <meta property="og:title" content="灵感捕手 · 静态体验页">
+    <meta property="og:description" content="把视频、文章和突然冒出的念头，整理成可执行的下一步。">
+    <meta property="og:url" content="https://15236702150master.github.io/inspiration-catcher/">
+    <meta property="og:type" content="website">
     <title>灵感捕手 · 静态体验页</title>
     <link rel="icon" href="./favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="./styles.css">
   </head>
   <body>
+    <a class="skip-link" href="#demo">跳到体验台</a>
     <header class="site-header">
       <a class="brand" href="#top" aria-label="灵感捕手首页"><span class="brand-mark">✦</span><span>灵感捕手</span></a>
       <nav class="site-nav" aria-label="页面导航">
@@ -17,7 +22,7 @@
         <a href="#workflow">工作流</a>
         <a href="#run">本地运行</a>
       </nav>
-      <a class="source-link" href="https://github.com/15236702150master/inspiration-catcher" target="_blank" rel="noreferrer">GitHub ↗</a>
+      <a class="source-link" href="https://github.com/15236702150master/inspiration-catcher" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
     </header>
 
     <main id="top">
@@ -28,7 +33,7 @@
           <p class="hero-lede">把视频、文章和突然冒出的念头放进同一张工作台。先留下，再拆解，最后收敛成下一步。</p>
           <div class="hero-actions">
             <a class="button primary" href="#demo">打开体验台 <span aria-hidden="true">↓</span></a>
-            <a class="button ghost" href="https://github.com/15236702150master/inspiration-catcher" target="_blank" rel="noreferrer">查看源代码 <span aria-hidden="true">↗</span></a>
+            <a class="button ghost" href="https://github.com/15236702150master/inspiration-catcher" target="_blank" rel="noopener noreferrer">查看源代码 <span aria-hidden="true">↗</span></a>
           </div>
           <dl class="hero-facts" aria-label="项目摘要">
             <div><dt>输入</dt><dd>视频 · 文章 · Word/PDF</dd></div>
@@ -52,36 +57,58 @@
           <div class="demo-tool" aria-label="静态体验台">
             <aside class="demo-rail">
               <div class="rail-title"><span class="brand-mark small">✦</span><b>灵感捕手</b></div>
-              <button class="rail-item active" type="button" data-view="capture"><span>✎</span>快速记录</button>
-              <button class="rail-item" type="button" data-view="library"><span>▣</span>我的灵感</button>
-              <button class="rail-item" type="button" data-view="lab"><span>⌘</span>AI 实验室</button>
+              <button class="rail-item active" type="button" data-view="capture" aria-controls="capture-view" aria-pressed="true"><span aria-hidden="true">✎</span><span>快速记录</span></button>
+              <button class="rail-item" type="button" data-view="library" aria-controls="library-view" aria-pressed="false"><span aria-hidden="true">▣</span><span>我的灵感</span></button>
+              <button class="rail-item" type="button" data-view="lab" aria-controls="lab-view" aria-pressed="false"><span aria-hidden="true">⌘</span><span>AI 实验室</span></button>
               <div class="rail-foot">示例工作区<br><b>只展示，不保存</b></div>
             </aside>
             <div class="demo-main">
-              <div class="demo-topline"><div><span class="eyebrow">QUICK CAPTURE</span><h3>快速记录一条灵感</h3></div><span class="demo-status"><i></i>本地示例</span></div>
-              <div class="capture-row">
-                <label class="sr-only" for="demo-url">内容链接</label>
-                <input id="demo-url" value="https://example.com/short-video/idea" autocomplete="off">
-                <button class="button primary" id="inspect-demo" type="button">解析示例</button>
-              </div>
-              <div class="demo-preview" id="demo-preview">
-                <div class="preview-label">示例视频 · 创作者方法论</div>
-                <h4 id="demo-title-card">粘贴链接，自动读取封面和标题</h4>
-                <span class="preview-source" id="demo-source">等待解析</span>
-              </div>
-              <div class="demo-note-row">
-                <label for="demo-note">我的一句话</label>
-                <textarea id="demo-note" rows="3" placeholder="这一刻你想到什么？"></textarea>
-              </div>
-              <div class="demo-actions"><button class="button ghost" id="fill-note" type="button">填入示例感想</button><button class="button primary" id="save-demo" type="button">保存示例</button><span class="demo-message" id="demo-message" role="status" aria-live="polite"></span></div>
-              <div class="demo-results" id="demo-results" hidden>
-                <div class="result-tabs" role="tablist" aria-label="AI 结果">
-                  <button class="result-tab active" type="button" data-result="breakdown" role="tab" aria-selected="true">视频拆解</button>
-                  <button class="result-tab" type="button" data-result="cases" role="tab" aria-selected="false">类似案例</button>
+              <div class="demo-toolbar"><p class="demo-message" id="demo-message" role="status" aria-live="polite"></p><button class="button ghost" id="reset-demo" type="button"><span aria-hidden="true">↺</span>重置</button></div>
+              <section class="demo-view" id="capture-view" data-view-panel="capture" aria-labelledby="capture-view-title">
+                <div class="demo-topline"><div><span class="eyebrow">QUICK CAPTURE</span><h3 id="capture-view-title">快速记录一条灵感</h3></div><span class="demo-status"><i></i>本地示例</span></div>
+                <div class="capture-row">
+                  <label class="sr-only" for="demo-url">内容链接</label>
+                  <input id="demo-url" type="url" value="https://example.com/short-video/idea" autocomplete="off" spellcheck="false" aria-describedby="demo-message">
+                  <button class="button primary" id="inspect-demo" type="button">解析示例</button>
                 </div>
-                <div id="breakdown-panel" class="result-panel" role="tabpanel"><div class="result-line"><b>核心方法</b><span>先给结论，再用一个可验证的细节证明它。</span></div><div class="result-line"><b>为什么有效</b><span>观众在前十秒就知道能带走什么，注意力有明确落点。</span></div><div class="result-line"><b>下一步</b><span>把你的下一个主题改写成“结论 + 证据 + 行动”三句。</span></div></div>
-                <div id="cases-panel" class="result-panel" role="tabpanel" hidden><div class="case-chip"><b>案例 01</b><span>把复杂教程压缩成一个反常识问题</span><small>结构 · 开场钩子</small></div><div class="case-chip"><b>案例 02</b><span>用一张前后对照图替代长段解释</span><small>表达 · 视觉证据</small></div><div class="case-chip"><b>案例 03</b><span>结尾给出今天就能完成的微动作</span><small>转化 · 行动提示</small></div></div>
-              </div>
+                <div class="demo-preview" id="demo-preview">
+                  <div class="preview-label">示例视频 · 创作者方法论</div>
+                  <h4 id="demo-title-card">粘贴链接，自动读取封面和标题</h4>
+                  <span class="preview-source" id="demo-source">等待解析</span>
+                </div>
+                <div class="demo-note-row">
+                  <label for="demo-note">我的一句话</label>
+                  <textarea id="demo-note" rows="3" placeholder="这一刻你想到什么？"></textarea>
+                </div>
+                <div class="demo-actions"><button class="button ghost" id="fill-note" type="button">填入示例感想</button><button class="button primary" id="save-demo" type="button">保存示例</button></div>
+              </section>
+              <section class="demo-view" id="library-view" data-view-panel="library" aria-labelledby="library-view-title" hidden>
+                <div class="demo-topline"><div><span class="eyebrow">YOUR LIBRARY</span><h3 id="library-view-title">我的灵感</h3></div><span class="demo-status"><i></i>内存示例</span></div>
+                <div class="library-empty" id="library-empty">
+                  <span class="empty-icon" aria-hidden="true">▱</span>
+                  <h4>还没有保存的灵感</h4>
+                  <p>回到快速记录，解析一个链接并写下一句感想。</p>
+                  <button class="button ghost" type="button" data-switch-view="capture">去记录一条</button>
+                </div>
+                <article class="library-card" id="library-card" hidden>
+                  <div class="library-card-top"><span class="library-label">刚刚保存</span><span class="preview-source">示例视频</span></div>
+                  <h4 id="library-card-title">先给结论，再用一个细节证明它</h4>
+                  <p id="library-card-note">把结论提前，再用一个可验证的细节让观众留下来。</p>
+                  <div class="library-card-foot"><span id="library-card-url">example.com</span><button class="button ghost" type="button" data-switch-view="lab">查看拆解 <span aria-hidden="true">→</span></button></div>
+                </article>
+              </section>
+              <section class="demo-view" id="lab-view" data-view-panel="lab" aria-labelledby="lab-view-title" hidden>
+                <div class="demo-topline"><div><span class="eyebrow">AI LAB</span><h3 id="lab-view-title">把灵感拆成下一步</h3></div><span class="demo-status"><i></i>静态结果</span></div>
+                <div class="lab-empty" id="lab-empty"><span class="empty-icon" aria-hidden="true">⌘</span><h4>先解析一条灵感</h4><p>解析完成后，这里会出现视频拆解和相似案例。</p><button class="button ghost" type="button" data-switch-view="capture">去解析一条</button></div>
+                <div class="demo-results" id="demo-results" hidden>
+                  <div class="result-tabs" role="tablist" aria-label="AI 结果">
+                    <button class="result-tab active" id="breakdown-tab" type="button" data-result="breakdown" role="tab" aria-selected="true" aria-controls="breakdown-panel" tabindex="0">视频拆解</button>
+                    <button class="result-tab" id="cases-tab" type="button" data-result="cases" role="tab" aria-selected="false" aria-controls="cases-panel" tabindex="-1">类似案例</button>
+                  </div>
+                  <div id="breakdown-panel" class="result-panel" role="tabpanel" aria-labelledby="breakdown-tab"><div class="result-line"><b>核心方法</b><span>先给结论，再用一个可验证的细节证明它。</span></div><div class="result-line"><b>为什么有效</b><span>观众在前十秒就知道能带走什么，注意力有明确落点。</span></div><div class="result-line"><b>下一步</b><span>把你的下一个主题改写成“结论 + 证据 + 行动”三句。</span></div></div>
+                  <div id="cases-panel" class="result-panel" role="tabpanel" aria-labelledby="cases-tab" hidden><div class="case-chip"><b>案例 01</b><span>把复杂教程压缩成一个反常识问题</span><small>结构 · 开场钩子</small></div><div class="case-chip"><b>案例 02</b><span>用一张前后对照图替代长段解释</span><small>表达 · 视觉证据</small></div><div class="case-chip"><b>案例 03</b><span>结尾给出今天就能完成的微动作</span><small>转化 · 行动提示</small></div></div>
+                </div>
+              </section>
             </div>
           </div>
         </div>
@@ -112,7 +139,7 @@
         <div class="run-copy"><p class="kicker">RUN IT LOCALLY</p><h2 id="run-title">完整功能在你的 Node.js 服务里</h2><p>Pages 只发布当前页面的静态示例；登录、SQLite、转写、模型和飞书同步由本地或服务器端应用提供。</p></div>
         <div class="code-block" aria-label="本地启动命令"><div class="code-bar"><span></span><span></span><span></span><small>PowerShell</small></div><pre><code>npm ci
 Copy-Item .env.example .env
-npm run dev</code></pre><a class="button primary" href="https://github.com/15236702150master/inspiration-catcher#本地运行" target="_blank" rel="noreferrer">查看完整说明 ↗</a></div>
+npm run dev</code></pre><a class="button primary" href="https://github.com/15236702150master/inspiration-catcher#本地运行" target="_blank" rel="noopener noreferrer">查看完整说明 ↗</a></div>
       </section>
     </main>
 

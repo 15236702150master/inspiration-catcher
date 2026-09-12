@@ -46,6 +46,7 @@ if (existsSync(envFile)) {
     if (match && process.env[match[1]] === undefined) process.env[match[1]] = match[2].replace(/^(["'])(.*)\1$/, "$2");
   }
 }
+const wechatResolverUrl = process.env.WECHAT_RESOLVER_URL || "https://sph.litao.workers.dev/api/fetch_video_profile";
 async function pruneArchivedLocalFiles(summary = {}) {
   const thumbnail = String(summary.thumbnail || "");
   if (!thumbnail.startsWith("/covers/")) return;
@@ -511,17 +512,19 @@ async function inspectVideo(url) {
     let payload;
     let responseOk = true;
     try {
-      const response = await fetch("https://sph.litao.workers.dev/api/fetch_video_profile", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ url }), signal: AbortSignal.timeout(15_000) });
+      const response = await fetch(wechatResolverUrl, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ url }), signal: AbortSignal.timeout(15_000) });
       responseOk = response.ok;
       payload = await response.json();
     } catch {
       if (process.platform === "win32") {
         const encoded = Buffer.from(JSON.stringify({ url }), "utf16le").toString("base64");
-        const script = `$body=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('${encoded}')); Invoke-RestMethod 'https://sph.litao.workers.dev/api/fetch_video_profile' -Method Post -ContentType 'application/json' -Body $body | ConvertTo-Json -Depth 20 -Compress`;
-        payload = JSON.parse(await command("powershell.exe", ["-NoProfile", "-NonInteractive", "-Command", script], 35_000));
+        const encodedResolver = Buffer.from(wechatResolverUrl, "utf8").toString("base64");
+        const script = `$body=[Text.Encoding]::Unicode.GetString([Convert]::FromBase64String('${encoded}')); $resolver=[Text.Encoding]::UTF8.GetString([Convert]::FromBase64String('${encodedResolver}')); Invoke-RestMethod -Uri $resolver -Method Post -ContentType 'application/json' -Body $body | ConvertTo-Json -Depth 20 -Compress`;
+        const encodedScript = Buffer.from(script, "utf16le").toString("base64");
+        payload = JSON.parse(await command("powershell.exe", ["-NoProfile", "-NonInteractive", "-EncodedCommand", encodedScript], 35_000));
       } else {
         const proxyArgs = process.env.WECHAT_PROXY_URL ? ["--proxy", process.env.WECHAT_PROXY_URL] : [];
-        payload = JSON.parse(await command("curl", ["-sS", "--max-time", "30", ...proxyArgs, "-X", "POST", "-H", "Content-Type: application/json", "--data", JSON.stringify({ url }), "https://sph.litao.workers.dev/api/fetch_video_profile"], 35_000));
+        payload = JSON.parse(await command("curl", ["-sS", "--max-time", "30", ...proxyArgs, "-X", "POST", "-H", "Content-Type: application/json", "--data", JSON.stringify({ url }), wechatResolverUrl], 35_000));
       }
     }
     const feed = payload.data?.feedInfo;
